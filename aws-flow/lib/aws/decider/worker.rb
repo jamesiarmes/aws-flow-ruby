@@ -187,32 +187,32 @@ module AWS
       # List the currently registered workflows for the domain.
       #
       # @return [Array]
-      def list_workflows
-        return @registered_workflows if @registered_workflows
-
-        list_params = { domain: @domain.name, registration_status: 'REGISTERED' }
-        @registered_workflows = []
-        loop do
-          result = @service.list_workflow_types(list_params)
-          @registered_workflows += (result['typeInfos'])
-          break unless result['nextPageToken']
-          list_params[:next_page_token] = result['nextPageToken']
-        end
-
-        @registered_workflows
-      end
+      # def list_workflows
+      #   return @registered_workflows if @registered_workflows
+      #
+      #   list_params = { domain: @domain.name, registration_status: 'REGISTERED' }
+      #   @registered_workflows = []
+      #   loop do
+      #     result = @service.list_workflow_types(list_params)
+      #     @registered_workflows += (result['typeInfos'])
+      #     break unless result['nextPageToken']
+      #     list_params[:next_page_token] = result['nextPageToken']
+      #   end
+      #
+      #   @registered_workflows
+      # end
 
       # Determines whether or not a workflow has already been registered.
       #
       # @param name [String] The name of the workflow.
       # @param version [String] The version to check for.
       # @return [Boolean]
-      def registered?(name, version)
-        !list_workflows.detect do |workflow|
-          workflow['workflowType']['name'] == name &&
-            workflow['workflowType']['version'] == version
-        end.nil?
-      end
+      # def registered?(name, version)
+      #   !list_workflows.detect do |workflow|
+      #     workflow['workflowType']['name'] == name &&
+      #       workflow['workflowType']['version'] == version
+      #   end.nil?
+      # end
 
       # Registers this workflow with Amazon SWF.
       def register
@@ -221,8 +221,8 @@ module AWS
           begin
             # If the workflow has already been registered, there is nothing to
             # do here.
-            next if registered?(workflow_type_options[:name],
-                                workflow_type_options[:version])
+            # next if registered?(workflow_type_options[:name],
+            #                     workflow_type_options[:version])
 
             @service.register_workflow_type(workflow_type_options)
           rescue AWS::SimpleWorkflow::Errors::TypeAlreadyExistsFault => e
@@ -359,32 +359,32 @@ module AWS
       # List the currently registered activities for the domain.
       #
       # @return [Array]
-      def list_activities
-        return @registered_activities if @registered_activities
-
-        list_params = { domain: @domain.name, registration_status: 'REGISTERED' }
-        @registered_activities = []
-        loop do
-          result = @service.list_activity_types(list_params)
-          @registered_activities += (result['typeInfos'])
-          break unless result['nextPageToken']
-          list_params[:next_page_token] = result['nextPageToken']
-        end
-
-        @registered_activities
-      end
+      # def list_activities
+      #   return @registered_activities if @registered_activities
+      #
+      #   list_params = { domain: @domain.name, registration_status: 'REGISTERED' }
+      #   @registered_activities = []
+      #   loop do
+      #     result = @service.list_activity_types(list_params)
+      #     @registered_activities += (result['typeInfos'])
+      #     break unless result['nextPageToken']
+      #     list_params[:next_page_token] = result['nextPageToken']
+      #   end
+      #
+      #   @registered_activities
+      # end
 
       # Determines whether or not an activity has already been registered.
       #
       # @param name [String] The name of the activity.
       # @param version [String] The version to check for.
       # @return [Boolean]
-      def registered?(name, version)
-        !list_activities.detect do |activity|
-          activity['activityType']['name'] == name &&
-            activity['activityType']['version'] == version
-        end.nil?
-      end
+      # def registered?(name, version)
+      #   !list_activities.detect do |activity|
+      #     activity['activityType']['name'] == name &&
+      #       activity['activityType']['version'] == version
+      #   end.nil?
+      # end
 
       # Registers the activity type.
       def register
@@ -392,8 +392,8 @@ module AWS
           begin
             # If the activity has already been registered, there is nothing to
             # do here.
-            next if registered?(activity_type_options[:name],
-                                activity_type_options[:version])
+            # next if registered?(activity_type_options[:name],
+            #                     activity_type_options[:version])
 
             @service.register_activity_type(activity_type_options)
           rescue AWS::SimpleWorkflow::Errors::TypeAlreadyExistsFault => e
